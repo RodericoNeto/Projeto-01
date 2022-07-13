@@ -21,23 +21,34 @@
 const addPost = () => {
 
 
-    const response = fetch(`https://jsonplaceholder.typicode.com/users`)
-    .then(data => {console.log(data.length)});
+    fetch(`https://jsonplaceholder.typicode.com/users`)
+        .then(response => {
+            //console.log(response.json())
+            return response.json();
+        })
+        .then(data => {
+            const lastId = data.length
+            console.log(lastId)
+            getUser(lastId);
+        })
 
+}
+addPost();
+// mesmo que: 
+// function addUser(){}
 
+const getUser = lastId => {
     fetch(`https://jsonplaceholder.typicode.com/posts`, {
-        method: `POST`, 
+        method: 'POST',
         body: JSON.stringify({
-            userId: 2,
-            title: `Titulo teste`,
+            userId: `${lastId + 1}`,
+            title: 'Titulo teste',
             body: `Eu fui inserido`
         }),
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
         }
-    }).then(response => response.json())
+    })
+    .then(response => response.json())
     .then(data => console.log(data))
 }
-addPost();
-// mesmo que: 
-// function addUser(){}
